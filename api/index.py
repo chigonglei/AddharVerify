@@ -159,8 +159,16 @@ def home():
             <div id="result"></div>
 
             <div class="info" id="info">
-                Ready for verification
-            </div>
+    Ready for verification
+</div>
+
+<div style="
+    margin-top:25px;
+    font-size:13px;
+    color:#888;
+">
+    Made with ❤️ by Sanjoy-Khoirom (Vercel)
+</div>
 
         </div>
 
@@ -217,7 +225,7 @@ def home():
                     result.className = "valid";
 
                     info.innerHTML =
-                        "Verification completed successfully";
+    "Verification completed successfully for Aadhaar " + aadhaar;
 
                 }else{
 

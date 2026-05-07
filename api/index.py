@@ -48,201 +48,314 @@ def home():
 
     return """
     <!DOCTYPE html>
-    <html>
-    <head>
+<html>
+<head>
 
-        <title>Aadhaar Validator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <style>
+<title>Aadhaar Validator</title>
 
-            *{
-                margin:0;
-                padding:0;
-                box-sizing:border-box;
-            }
+<style>
 
-            body{
-                font-family:Arial;
-                background:#0f172a;
-                height:100vh;
-                display:flex;
-                justify-content:center;
-                align-items:center;
-                padding:20px;
-            }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-            .card{
-                width:100%;
-                max-width:400px;
-                background:white;
-                padding:30px;
-                border-radius:20px;
-                text-align:center;
-                box-shadow:0 10px 30px rgba(0,0,0,0.3);
-            }
+body{
+    font-family:Arial,sans-serif;
+    background:#020b24;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    color:white;
+}
 
-            h1{
-                margin-bottom:25px;
-                color:#0f172a;
-            }
+.container{
+    width:100%;
+    max-width:420px;
+}
 
-            input{
-                width:100%;
-                padding:15px;
-                border:1px solid #ddd;
-                border-radius:12px;
-                font-size:16px;
-            }
+.logo{
+    text-align:center;
+    margin-bottom:30px;
+}
 
-            button{
-                width:100%;
-                margin-top:15px;
-                padding:15px;
-                border:none;
-                border-radius:12px;
-                background:#2563eb;
-                color:white;
-                font-size:16px;
-                cursor:pointer;
-            }
+.logo h1{
+    font-size:48px;
+    font-weight:800;
+    line-height:1.1;
+}
 
-            button:hover{
-                background:#1d4ed8;
-            }
+.logo span{
+    color:#2f7cff;
+}
 
-            #result{
-                margin-top:25px;
-                font-size:18px;
-                font-weight:bold;
-            }
+.logo p{
+    margin-top:15px;
+    color:#b8c1d1;
+    font-size:16px;
+}
 
-            .loading{
-                color:#2563eb;
-            }
+.card{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:25px;
+    padding:25px;
+    backdrop-filter:blur(10px);
+}
 
-            .valid{
-                color:green;
-            }
+.label{
+    margin-bottom:15px;
+    font-size:15px;
+    color:#d1d5db;
+}
 
-            .invalid{
-                color:red;
-            }
+.input-box{
+    background:white;
+    border-radius:18px;
+    overflow:hidden;
+}
 
-            .info{
-                color:#555;
-                margin-top:10px;
-                font-size:14px;
-            }
+input{
+    width:100%;
+    border:none;
+    outline:none;
+    padding:18px;
+    font-size:22px;
+    text-align:center;
+}
 
-        </style>
+button{
+    width:100%;
+    margin-top:20px;
+    border:none;
+    border-radius:18px;
+    padding:18px;
+    background:linear-gradient(90deg,#2563eb,#3b82f6);
+    color:white;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+}
 
-    </head>
+button:hover{
+    opacity:0.9;
+}
 
-    <body>
+.result-card{
+    margin-top:25px;
+    border-radius:25px;
+    padding:25px;
+    text-align:center;
+    display:none;
+}
 
-        <div class="card">
+.valid{
+    background:rgba(34,197,94,0.12);
+    border:1px solid rgba(34,197,94,0.4);
+}
 
-            <h1>Aadhaar Validator</h1>
+.invalid{
+    background:rgba(239,68,68,0.12);
+    border:1px solid rgba(239,68,68,0.4);
+}
 
-            <input 
-                type="text" 
-                id="aadhaar" 
+.loading{
+    background:rgba(59,130,246,0.12);
+    border:1px solid rgba(59,130,246,0.4);
+}
+
+.status{
+    font-size:30px;
+    margin-bottom:15px;
+}
+
+.message{
+    font-size:26px;
+    font-weight:bold;
+}
+
+.sub{
+    margin-top:12px;
+    color:#d1d5db;
+    line-height:1.6;
+    font-size:16px;
+}
+
+.footer{
+    margin-top:30px;
+    text-align:center;
+    color:#94a3b8;
+    font-size:15px;
+}
+
+.footer span{
+    color:#60a5fa;
+    font-weight:bold;
+}
+
+@media(max-width:480px){
+
+    .logo h1{
+        font-size:42px;
+    }
+
+    input{
+        font-size:20px;
+    }
+
+    .message{
+        font-size:22px;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+
+        <h1>
+            Aadhaar <br>
+            <span>Validator</span>
+        </h1>
+
+        <p>
+            Validate your 12-digit Aadhaar Number
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <div class="label">
+            Enter 12-digit Aadhaar Number
+        </div>
+
+        <div class="input-box">
+
+            <input
+                type="text"
+                id="aadhaar"
                 maxlength="12"
-                placeholder="Enter 12-digit Aadhaar"
+                placeholder="741694613161"
                 oninput="resetResult()"
             >
 
-            <button onclick="validateAadhaar()">
-                Check Aadhaar
-            </button>
-
-            <div id="result"></div>
-
-            <div class="info" id="info">
-    Ready for verification
-</div>
-
-<div style="
-    margin-top:25px;
-    font-size:13px;
-    color:#888;
-">
-    Made with ❤️ by Sanjoy-Khoirom (Vercel)
-</div>
-
         </div>
 
-        <script>
+        <button onclick="validateAadhaar()">
+            🔍 Check Aadhaar
+        </button>
 
-            function resetResult(){
+    </div>
 
-                document.getElementById("result").innerHTML = "";
+    <div id="resultCard" class="result-card">
 
-                document.getElementById("info").innerHTML =
-                    "Enter another Aadhaar number to check";
-            }
+        <div id="status" class="status"></div>
 
-            async function validateAadhaar(){
+        <div id="message" class="message"></div>
 
-                const aadhaar =
-                    document.getElementById("aadhaar").value.trim();
+        <div id="sub" class="sub"></div>
 
-                const result =
-                    document.getElementById("result");
+    </div>
 
-                const info =
-                    document.getElementById("info");
+    <div class="footer">
+        Made with ❤️ by <span>Sanjoy-Khoirom (Vercel)</span>
+    </div>
 
-                if(aadhaar.length !== 12){
+</div>
 
-                    result.innerHTML =
-                        "❌ Aadhaar must contain exactly 12 digits";
+<script>
 
-                    result.className = "invalid";
+function resetResult(){
 
-                    info.innerHTML =
-                        "Please enter a valid 12-digit number";
+    document.getElementById("resultCard").style.display = "none";
+}
 
-                    return;
-                }
+async function validateAadhaar(){
 
-                result.innerHTML = "⏳ Checking...";
+    const aadhaar =
+        document.getElementById("aadhaar").value.trim();
 
-                result.className = "loading";
+    const card =
+        document.getElementById("resultCard");
 
-                info.innerHTML = "Verifying Aadhaar number";
+    const status =
+        document.getElementById("status");
 
-                const response =
-                    await fetch(`/api/validate?aadhaar=${aadhaar}`);
+    const message =
+        document.getElementById("message");
 
-                const data = await response.json();
+    const sub =
+        document.getElementById("sub");
 
-                if(data.valid){
+    card.style.display = "block";
 
-                    result.innerHTML =
-                        "✅ Valid Aadhaar Number";
+    if(aadhaar.length !== 12){
 
-                    result.className = "valid";
+        card.className = "result-card invalid";
 
-                    info.innerHTML =
-    "Verification completed successfully for Aadhaar " + aadhaar;
+        status.innerHTML = "❌";
 
-                }else{
+        message.innerHTML = "Invalid Aadhaar";
 
-                    result.innerHTML =
-                        "❌ Invalid Aadhaar Number";
+        sub.innerHTML =
+            "Aadhaar must contain exactly 12 digits";
 
-                    result.className = "invalid";
+        return;
+    }
 
-                    info.innerHTML =
-                        "Entered Aadhaar is not valid";
-                }
-            }
+    card.className = "result-card loading";
 
-        </script>
+    status.innerHTML = "⏳";
 
-    </body>
-    </html>
+    message.innerHTML = "Checking Aadhaar";
+
+    sub.innerHTML =
+        "Please wait while verification completes";
+
+    const response =
+        await fetch(`/api/validate?aadhaar=${aadhaar}`);
+
+    const data = await response.json();
+
+    if(data.valid){
+
+        card.className = "result-card valid";
+
+        status.innerHTML = "✅";
+
+        message.innerHTML = "Valid Aadhaar Number";
+
+        sub.innerHTML =
+            `Verification completed successfully for Aadhaar ${aadhaar}`;
+
+    }else{
+
+        card.className = "result-card invalid";
+
+        status.innerHTML = "❌";
+
+        message.innerHTML = "Invalid Aadhaar Number";
+
+        sub.innerHTML =
+            `Verification failed for Aadhaar ${aadhaar}`;
+    }
+}
+
+</script>
+
+</body>
+</html>
     """
 
 

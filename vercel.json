@@ -2,22 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/*.py",
+      "src": "api/index.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "public/*",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/",
-      "dest": "/public/index.html"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/validate.py"
+      "src": "/(.*)",
+      "dest": "api/index.py"
     }
   ]
 }
